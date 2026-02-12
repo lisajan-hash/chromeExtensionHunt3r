@@ -15,8 +15,10 @@ def extract_ips_and_urls(extension_dir):
             for file in files:
                 if file.endswith('.js'):
                     file_path = os.path.join(root, file)
+                    if os.path.getsize(file_path) > 10 * 1024 * 1024:
+                        continue  # Skip files larger than 10MB
                     try:
-                        with open(file_path, 'r', encoding='utf-8') as js_file:
+                        with open(file_path, 'r', encoding='utf-8', errors='ignore') as js_file:
                             content = js_file.read()
                             # Extract potential IPs and validate them
                             potential_ips = re.findall(ip_pattern, content)

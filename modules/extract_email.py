@@ -13,8 +13,10 @@ def extract_emails_from_js(extension_dir):
             for file in files:
                 if file.endswith('.js') or file.endswith('.json') or file.endswith('.html'):
                     file_path = os.path.join(root, file)
+                    if os.path.getsize(file_path) > 10 * 1024 * 1024:
+                        continue  # Skip files larger than 10MB
                     try:
-                        with open(file_path, 'r', encoding='utf-8') as file_content:
+                        with open(file_path, 'r', encoding='utf-8', errors='ignore') as file_content:
                             content = file_content.read()
                             # Extract emails using the regex pattern
                             emails = re.findall(email_pattern, content)
