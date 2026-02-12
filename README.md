@@ -1,4 +1,4 @@
-# chromeExtensionHunt3r
+# Flying_Pegasus
 
 A Python tool to retrieve, analyze, and hunt for potentially risky elements in Chrome browser extensions (.crx files). This project helps security researchers and developers identify permissions, encoded data, URLs/IPs, and emails within extensions for risk assessment.
 
@@ -12,6 +12,13 @@ A Python tool to retrieve, analyze, and hunt for potentially risky elements in C
 - **Extension Download**: Downloads extensions directly from the Chrome Web Store by ID.
 
 ## Usage
+
+### Quick Start Workflow
+1. Drop any `.crx` files you already have into `extensions/` (or download them with `download_extensions.py`).
+2. (Optional) Build a CSV that lists the Chrome Web Store IDs you want to handle next.
+3. Run `python main.py` to analyze every `.crx` in `extensions/`, or target IDs with `python main.py --csv your_ids.csv`.
+4. Inspect the generated `result/<extension_id>/` folders and `results.csv` for permissions, URLs, IPs, emails, and Base64 hits.
+5. Repeat the process as you add more extensions to the `extensions/` folder.
 
 ### Analyzing Existing Extensions
 
@@ -51,6 +58,25 @@ python download_extensions.py --csv extension_list.csv
 **Note**: Not all extensions may be downloadable due to Chrome Web Store policies or availability. The script will report failures for empty or unavailable downloads. In such cases, download manually from the Chrome Web Store.
 
 This downloads the extensions to `extensions/` and then you can analyze them with `main.py`.
+
+### Command Reference
+
+| Script | Flag | Description |
+| --- | --- | --- |
+| `main.py` | `--csv PATH` | Analyze only the IDs listed in a CSV with an `ID` column. When omitted, everything in `extensions/` is processed. |
+| `download_extensions.py` | `--ids ID1 ID2` | Download one or more extensions directly from the CLI. |
+|  | `--csv PATH` | Read IDs from a CSV file (same format as above). |
+|  | `--output DIR` | Override the download destination (defaults to `extensions/`). |
+
+### CSV Format Example
+
+```
+ID
+cjpalhdlnbpafiamejdnhcphjbkeiagm
+abcdefghijklmnopabcdefghijklmnop
+```
+
+Keep the column header exactly `ID`, then add one extension ID per row. You can feed the same file to both scripts.
 
 ### CSV Output
 
